@@ -8,7 +8,7 @@ const express = require('express');
 const router = express.Router();
 
 
-// Listar tudo
+// Lista tudo
 router.get('/', (req, res) => {
     res.json(professores);
 });
