@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 });
 
 
-// Busca pelo ID
+// Buscar pelo ID
 router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const professor = professores.find(a => a.id === id);
