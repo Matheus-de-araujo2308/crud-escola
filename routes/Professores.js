@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
   res.status(201).json(novoProfessor)
 })
 
-// Atualizar
+// Atualiza
 router.put('/:id', (req, res) => {
   const id = parseInt(req.params.id)
   const professor = professores.find(p => p.id === id)
