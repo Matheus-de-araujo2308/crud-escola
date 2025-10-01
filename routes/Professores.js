@@ -1,65 +1,54 @@
+const express = require('express')
+const router = express.Router()
+
 let professores = [
-    { id: 1, nome: "Gustavo", cpf:"12312312451", email:"Gustovao@gmail.com", curso:"ADS" ,disciplina:"Back-end" },
-    { id: 2, nome: "Marlene", cpf:"12412412523", email:"marlene13@gmail.com", curso: "Fundamentos de logica", disciplina: "front-end" }
-];
+  { id: 1, nome: "Gustavo", cpf:"12312312451", email:"gustavao@gmail.com", curso:"ADS", disciplina:"Back-end" },
+  { id: 2, nome: "Marlene", cpf:"12412412523", email:"marlene13@gmail.com", curso:"Fundamentos de Lógica", disciplina:"Front-end" }
+]
 
-
-const express = require('express');
-const router = express.Router();
-
-
-// Lista tudo
+// Listar todos
 router.get('/', (req, res) => {
-    res.json(professores);
-});
+  res.json(professores)
+})
 
-
-// Buscar pelo ID
+// Buscar por ID
 router.get('/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const professor = professores.find(a => a.id === id);
-    if (!professor) return res.status(404).json({ erro: 'professor não encontrado' });
-    res.json(professor);
-});
+  const id = parseInt(req.params.id)
+  const professor = professores.find(p => p.id === id)
+  if (!professor) return res.status(404).json({ erro: 'Professor não encontrado' })
+  res.json(professor)
+})
 
-
-// Cria novo professor
+// Criar novo
 router.post('/', (req, res) => {
-    const { nome, idade } = req.body;
-    if (!nome || !idade) return res.status(400).json({ erro: 'Campos obrigatórios' });
-    
-    const duplicado = professores.find(a => a.nome === nome);
-    if (duplicado) return res.status(400).json({ erro: 'professor já existe' });
+  const { nome, cpf, email, curso, disciplina } = req.body
+  if (!nome || !cpf || !email || !curso || !disciplina) {
+    return res.status(400).json({ erro: 'Campos obrigatórios' })
+  }
 
-    const novoprofessor = { id: professores.length + 1, nome, idade };
-    professores.push(novoprofessor);
-    res.status(201).json(novoprofessor);
-});
+  const novoProfessor = { id: professores.length + 1, nome, cpf, email, curso, disciplina }
+  professores.push(novoProfessor)
+  res.status(201).json(novoProfessor)
+})
 
-
-// Atualiza professor
+// Atualizar
 router.put('/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const { nome, idade } = req.body;
+  const id = parseInt(req.params.id)
+  const professor = professores.find(p => p.id === id)
+  if (!professor) return res.status(404).json({ erro: 'Professor não encontrado' })
 
-    const professor = professores.find(a => a.id === id);
-    if (!professor) return res.status(404).json({ erro: 'professor não encontrado' });
+  Object.assign(professor, req.body)
+  res.json(professor)
+})
 
-    if (nome) professor.nome = nome;
-    if (idade) professor.idade = idade;
-
-    res.json(professor);
-});
-
-
-// Deleta professor
+// Deletar
 router.delete('/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    const index = professores.findIndex(a => a.id === id);
-    if (index === -1) return res.status(404).json({ erro: 'professor não encontrado' });
+  const id = parseInt(req.params.id)
+  const index = professores.findIndex(p => p.id === id)
+  if (index === -1) return res.status(404).json({ erro: 'Professor não encontrado' })
 
-    professores.splice(index, 1);
-    res.json({ mensagem: 'professor deletado com sucesso' });
-});
+  professores.splice(index, 1)
+  res.json({ mensagem: 'Professor deletado com sucesso' })
+})
 
-module.exports = router;
+module.exports = router
