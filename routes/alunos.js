@@ -6,7 +6,7 @@ let alunos = [
   { id: 2, nome: "Maria", email:"maria22@gmail.com", cpf:"12412412434", telefone: "11978162922", dataNascimento: "2002-01-01" }
 ]
 
-// Listar todos
+
 router.get('/', (req, res) => {
   res.json(alunos)
 })
